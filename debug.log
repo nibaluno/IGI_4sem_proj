@@ -1345,3 +1345,59 @@ Watching for file changes with StatReloader
 "GET /orders/dashboard/ HTTP/1.1" 200 18683
 Not Found: /.well-known/appspecific/com.chrome.devtools.json
 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 6142
+Watching for file changes with StatReloader
+"GET / HTTP/1.1" 200 2048
+"GET / HTTP/1.1" 200 2716
+Not Found: /favicon.ico
+Not Found: /apple-touch-icon-precomposed.png
+Not Found: /apple-touch-icon.png
+"GET /favicon.ico HTTP/1.1" 404 6031
+Not Found: /favicon.ico
+"GET /apple-touch-icon-precomposed.png HTTP/1.1" 404 6094
+"GET /apple-touch-icon.png HTTP/1.1" 404 6058
+"GET /favicon.ico HTTP/1.1" 404 6031
+"GET / HTTP/1.1" 200 2716
+"GET /about/ HTTP/1.1" 200 2368
+"GET /media/company/f9876904d16fa734c312715150f40317.jpg HTTP/1.1" 304 0
+"GET /store/ HTTP/1.1" 200 6945
+"GET /orders/promocodes/ HTTP/1.1" 200 2803
+"GET /news/ HTTP/1.1" 200 3395
+"GET /glossary/ HTTP/1.1" 200 3712
+"GET /contacts/ HTTP/1.1" 200 2324
+"GET /media/contacts/-9.jpg HTTP/1.1" 304 0
+"GET /vacancies/ HTTP/1.1" 200 2842
+"GET /reviews/ HTTP/1.1" 200 2502
+"GET /privacy/ HTTP/1.1" 200 2098
+"GET /users/profile/ HTTP/1.1" 200 3029
+"GET /users/clients/ HTTP/1.1" 200 4278
+"GET /users/clients/7/ HTTP/1.1" 200 2331
+"GET /users/clients/ HTTP/1.1" 200 4278
+"GET /orders/dashboard/ HTTP/1.1" 200 18683
+"GET /admin/ HTTP/1.1" 200 19706
+"GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+"GET /static/admin/js/theme.js HTTP/1.1" 304 0
+"GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+"GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+"GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+"GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+"GET /static/admin/css/base.css HTTP/1.1" 304 0
+"GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+"GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+"GET / HTTP/1.1" 200 2716
+"GET /news/2026/novost-3/ HTTP/1.1" 200 2212
+"GET /news/ HTTP/1.1" 200 3395
+"GET /about/ HTTP/1.1" 200 2368
+"GET /users/clients/ HTTP/1.1" 200 4278
+"GET /users/clients/1/ HTTP/1.1" 200 2315
+"GET /users/clients/ HTTP/1.1" 200 4278
+"GET /orders/dashboard/ HTTP/1.1" 200 18683
+"GET /users/clients/ HTTP/1.1" 200 4278
+"GET /users/profile/ HTTP/1.1" 200 3110
+"GET /privacy/ HTTP/1.1" 200 2098
+"GET /reviews/ HTTP/1.1" 200 2502
+"GET /store/ HTTP/1.1" 200 6945
+"GET /orders/promocodes/ HTTP/1.1" 200 2803
+"GET /store/ HTTP/1.1" 200 6945
+Watching for file changes with StatReloader
+"GET / HTTP/1.1" 200 2048
+"GET /orders/dashboard/ HTTP/1.1" 200 75667

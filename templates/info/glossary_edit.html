@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Редактирование термина #{{ term_obj.id }}</h2>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <p>
+            <label>Термин:</label><br>
+            <input type="text" name="term" value="{{ term_obj.term }}" required>
+        </p>
+        <p>
+            <label>Определение:</label><br>
+            <textarea name="definition" rows="5" required>{{ term_obj.definition }}</textarea>
+        </p>
+        <button type="submit">Сохранить изменения</button>
+    </form>
+    
+    <p><a href="{% url 'glossary' %}">Отмена и возврат</a></p>
+{% endblock %}

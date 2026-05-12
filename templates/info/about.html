@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>О нашей компании</h1>
+
+    {% if company.logo %}
+        <div>
+            <img src="{{ company.logo.url }}" alt="Логотип компании">
+        </div>
+    {% endif %}
+
+    <p>{{ company.about_text }}</p>
+    
+    <h3>История успеха</h3>
+    <ul>
+        {% for item in company.history.all|dictsort:"year" %}
+            <li>
+                <strong>{{ item.year }} год:</strong> {{ item.event }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

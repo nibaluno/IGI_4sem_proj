@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Заказ №{{ order.id }}</h1>
+    <ul>
+        <li><strong>Статус:</strong> {{ order.get_status_display }}</li>
+        <li><strong>Дата оформления:</strong> {{ order.created_at|date:"d/m/Y H:i" }}</li>
+        <li><strong>Планируемая доставка:</strong> {{ order.delivery_date|date:"d/m/Y" }}</li>
+    </ul>
+
+    <h3>Товары в заказе</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Кол-во</th>
+                <th>Цена при покупке</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.orderitem_set.all %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.price_at_purchase }} руб.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if order.promo_code %}
+        <p>Применен промокод: <strong>{{ order.promo_code.code }}</strong></p>
+    {% endif %}
+
+    <p><a href="{% url 'profile' %}">Назад в профиль</a></p>
+{% endblock %}

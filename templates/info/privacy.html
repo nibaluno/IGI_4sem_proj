@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Политика конфиденциальности</h1>
+    
+    {% if policy %}
+        <p>{{ policy.content }}</p>
+    {% else %}
+        <p>Текст политики конфиденциальности в стадии разработки.</p>
+    {% endif %}
+{% endblock %}

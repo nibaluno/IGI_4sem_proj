@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Каталог бытовой химии</h1>
+
+<section>
+    <form method="get">
+        <input type="text" name="search" placeholder="Найти товар..." value="{{ request.GET.search }}">
+        <select name="sort">
+            <option value="">Сортировка</option>
+            <option value="price_asc">Дешевле</option>
+            <option value="price_desc">Дороже</option>
+        </select>
+        <button type="submit">Применить</button>
+        <a href="{% url 'product_list' %}">Сбросить</a>
+    </form>
+</section>
+
+{% if user.is_superuser %}
+    <p><a href="{% url 'product_create' %}"><strong>[+] Добавить новый товар</strong></a></p>
+{% endif %}
+
+<hr>
+
+{% for product in products %}
+    <article>
+        <h3>{{ product.name }}</h3>
+        {% if product.photo %}
+            <img src="{{ product.photo.url }}" alt="{{ product.name }}" width="150">
+        {% endif %}
+        <p>Категория: {{ product.category.name }}</p>
+        <p>Цена: <strong>{{ product.price }} руб.</strong></p>
+        <p><a href="{% url 'product_detail' pk=product.pk %}">Подробнее</a></p>
+        
+        {% if user.is_superuser %}
+            <p>
+                <a href="{% url 'product_edit' product.id %}">Редактировать</a> | 
+                <a href="{% url 'product_delete' product.id %}">Удалить</a>
+            </p>
+        {% endif %}
+    </article>
+    <hr>
+{% empty %}
+    <p>Товары не найдены.</p>
+{% endfor %}
+{% endblock %}

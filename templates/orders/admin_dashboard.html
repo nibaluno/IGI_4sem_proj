@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Панель администратора</h1>
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 1. КЛЮЧЕВЫЕ ПОКАЗАТЕЛИ
+═══════════════════════════════════════════════ -->
+<h2>Ключевые показатели</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Показатель</th>
+            <th>Значение</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>Самый популярный товар</td><td>{{ most_popular.name }} ({{ most_popular.total_sold }} шт.)</td></tr>
+        <tr><td>Товар без спроса</td><td>{{ least_popular.name }} ({{ least_popular.total_sold }} шт.)</td></tr>
+        <tr><td>Наиболее прибыльная категория</td><td>{{ most_profitable_cat.name }}</td></tr>
+        <tr><td>Годовой оборот</td><td>{{ annual_revenue }} руб.</td></tr>
+        <tr><td>Прогноз на следующий месяц</td><td>{{ forecast }} руб.</td></tr>
+        <tr><td>Средний чек заказа</td><td>{{ mean_sales }} руб.</td></tr>
+        <tr><td>Медиана суммы заказов</td><td>{{ median_sales }} руб.</td></tr>
+        <tr><td>Мода суммы заказов</td><td>{{ mode_sales }}</td></tr>
+        <tr><td>Средний возраст клиентов</td><td>{{ mean_age }} лет</td></tr>
+        <tr><td>Медиана возраста клиентов</td><td>{{ median_age }} лет</td></tr>
+    </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 2. СВОДНАЯ ТАБЛИЦА: ВИДЫ ПРОДУКЦИИ
+═══════════════════════════════════════════════ -->
+<h2>Сводная таблица: виды продукции</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Товар</th>
+            <th>Категория</th>
+            <th>Цена (руб.)</th>
+            <th>Продано (шт.)</th>
+            <th>Выручка (руб.)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in products_summary %}
+        <tr>
+            <td>{{ p.name }}</td>
+            <td>{{ p.category.name }}</td>
+            <td>{{ p.price }}</td>
+            <td>{{ p.total_qty }}</td>
+            <td>{{ p.total_revenue }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3"><strong>ИТОГО</strong></td>
+            <td><strong>{{ total_all_qty }}</strong></td>
+            <td><strong>{{ total_all_revenue }}</strong></td>
+        </tr>
+    </tfoot>
+</table>
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 3. СВОДНАЯ ТАБЛИЦА: КАТЕГОРИИ
+═══════════════════════════════════════════════ -->
+<h2>Сводная таблица: категории товаров</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Категория</th>
+            <th>Продано (шт.)</th>
+            <th>Выручка (руб.)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cat in profitable_cats %}
+        <tr>
+            <td>{{ cat.name }}</td>
+            <td>{{ cat.qty }}</td>
+            <td>{{ cat.revenue }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 4. ЕЖЕМЕСЯЧНЫЙ ОБЪЁМ ПРОДАЖ
+═══════════════════════════════════════════════ -->
+<h2>Ежемесячный объём продаж</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Месяц</th>
+            <th>Заказов</th>
+            <th>Выручка (руб.)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in monthly_sales %}
+        <tr>
+            <td>{{ m.month|date:"m/Y" }}</td>
+            <td>{{ m.orders_count }}</td>
+            <td>{{ m.total }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 5. ПРАЙС-ЛИСТ ПО КАТЕГОРИЯМ
+═══════════════════════════════════════════════ -->
+<h2>Прайс-лист по категориям</h2>
+{% for category in categories %}
+<details>
+    <summary><strong>{{ category.name }}</strong> ({{ category.products.count }} товаров)</summary>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Цена</th>
+                <th>Ед. изм.</th>
+                <th>Остаток</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in category.products.all %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }} руб.</td>
+                <td>{{ product.get_unit_display }}</td>
+                <td>{{ product.stock }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</details>
+{% endfor %}
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 6. СВОДНАЯ ТАБЛИЦА: КЛИЕНТЫ ПО ГОРОДАМ
+═══════════════════════════════════════════════ -->
+<h2>Клиенты по городам</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Город</th>
+            <th>Количество клиентов</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in clients_by_city %}
+        <tr>
+            <td>{{ item.city|default:"Не указан" }}</td>
+            <td>{{ item.count }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 7. СПИСОК КЛИЕНТОВ В АЛФАВИТНОМ ПОРЯДКЕ
+═══════════════════════════════════════════════ -->
+<h2>Список клиентов (по алфавиту)</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>ФИО</th>
+            <th>Город</th>
+            <th>Телефон</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for client in clients_alpha %}
+        <tr>
+            <td>{{ client.last_name }} {{ client.first_name }}</td>
+            <td>{{ client.city|default:"—" }}</td>
+            <td>{{ client.phone|default:"—" }}</td>
+            <td>{{ client.email|default:"—" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- ═══════════════════════════════════════════════
+     БЛОК 8. ДИАГРАММЫ
+═══════════════════════════════════════════════ -->
+<section>
+    <h2>Диаграммы</h2>
+
+    <div style="width: 100%; max-width: 600px;">
+        <h3>Продажи по месяцам и линейный тренд</h3>
+        <canvas id="salesChart" width="600" height="300" style="display: block;"></canvas>
+    </div>
+
+    <div style="width: 100%; max-width: 400px;">
+        <h3>Выручка по категориям товаров</h3>
+        <canvas id="categoryChart" width="400" height="400" style="display: block;"></canvas>
+    </div>
+
+    <div style="width: 100%; max-width: 600px;">
+        <h3>Клиенты по городам</h3>
+        <canvas id="cityChart" width="600" height="300" style="display: block;"></canvas>
+    </div>
+</section>
+
+<!-- Передача данных -->
+{{ months_labels|json_script:"months_labels" }}
+{{ sales_data|json_script:"sales_data" }}
+{{ trend_data|json_script:"trend_data" }}
+{{ cat_labels|json_script:"cat_labels" }}
+{{ cat_revenue|json_script:"cat_revenue" }}
+{{ cities_labels|json_script:"cities_labels" }}
+{{ cities_data|json_script:"cities_data" }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const getJ = (id) => JSON.parse(document.getElementById(id).textContent);
+
+        const mLabels = getJ('months_labels');
+        const sData = getJ('sales_data');
+        const tData = getJ('trend_data');
+        const cLabels = getJ('cat_labels');
+        const cData = getJ('cat_revenue');
+        const cityLabels = getJ('cities_labels');
+        const cityData = getJ('cities_data');
+
+        new Chart(document.getElementById('salesChart'), {
+            type: 'line',
+            data: {
+                labels: mLabels,
+                datasets: [
+                    { label: 'Продажи', data: sData, borderColor: 'blue' },
+                    { label: 'Тренд', data: tData, borderColor: 'red', borderDash: [5, 5] }
+                ]
+            }
+        });
+
+        new Chart(document.getElementById('categoryChart'), {
+            type: 'pie',
+            data: {
+                labels: cLabels,
+                datasets: [{ data: cData, backgroundColor: ['red', 'blue', 'green', 'orange'] }]
+            }
+        });
+
+        new Chart(document.getElementById('cityChart'), {
+            type: 'bar',
+            data: {
+                labels: cityLabels,
+                datasets: [{ label: 'Клиенты', data: cityData, backgroundColor: 'grey' }]
+            }
+        });
+    });
+</script>
+{% endblock %}  

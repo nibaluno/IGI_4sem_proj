@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Управление промокодами</h1>
+
+    {% if user.is_superuser %}
+        <p><a href="{% url 'promocode_create' %}"><strong>[+] Создать новый промокод</strong></a></p>
+    {% endif %}
+
+    <h3>Действующие акции</h3>
+    {% for promo in active_promos %}
+        <article>
+            <p>Код: <code>{{ promo.code }}</code></p>
+            <p>Скидка: {{ promo.discount }}%</p>
+            <p>Срок до: {{ promo.expiry_date|date:"d.m.Y" }}</p>
+            
+            {% if user.is_superuser %}
+                <a href="{% url 'promocode_edit' promo.id %}">Изменить</a> | 
+                <a href="{% url 'promocode_delete' promo.id %}">Удалить</a>
+            {% endif %}
+        </article>
+        <hr>
+    {% empty %}
+        <p>Нет активных промокодов.</p>
+    {% endfor %}
+
+    <h3>Архив</h3>
+    <ul>
+        {% for promo in archive_promos %}
+            <li>
+                <s>{{ promo.code }}</s> (Скидка {{ promo.discount }}%)
+                {% if user.is_superuser %}
+                    <a href="{% url 'promocode_edit' promo.id %}">[Восстановить/Править]</a>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>Архив пуст.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

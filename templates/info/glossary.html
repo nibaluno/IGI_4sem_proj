@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Словарь терминов (CRUD)</h1>
+
+    <section>
+        <h3>Добавить новый термин</h3>
+        <form method="POST" action="{% url 'glossary_create' %}">
+            {% csrf_token %}
+            <p>
+                <label>Термин:</label><br>
+                <input type="text" name="term" required>
+            </p>
+            <p>
+                <label>Определение:</label><br>
+                <textarea name="definition" rows="3" required></textarea>
+            </p>
+            <button type="submit">Добавить</button>
+        </form>
+    </section>
+
+    <hr>
+
+    {% if terms %}
+        <h2>Список терминов</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Термин</th>
+                    <th>Определение</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in terms %}
+                <tr>
+                    <td>{{ t.id }}</td>
+                    <td>{{ t.term }}</td>
+                    <td>{{ t.definition }}</td>
+                    <td>
+                        <a href="{% url 'glossary_edit' t.id %}">Изменить</a>
+                        <a href="{% url 'glossary_delete' t.id %}">Удалить</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Словарь пока пуст.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Новости магазина</h1>
+    
+    <section>
+        {% for news in news_list %}
+            <article>
+                <h3>{{ news.title }}</h3>
+                <p>{{ news.short_content }}</p>
+                <a href="{% url 'news_detail' year=news.date_published|date:'Y' slug=news.slug %}">Читать далее...</a>
+                <p><small>Опубликовано: {{ news.date_published|date:"d.m.Y" }}</small></p>
+            </article>
+            <hr>
+        {% empty %}
+            <p>Новостей пока нет.</p>
+        {% endfor %}
+    </section>
+{% endblock %}

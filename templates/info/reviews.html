@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Отзывы о магазине</h1>
+    
+    {% if user.is_authenticated %}
+        <section>
+            <h4>Оставить отзыв</h4>
+            <p>Вы можете оставить отзыв на странице любого товара в каталоге!</p>
+            <p><a href="{% url 'product_list' %}">Перейти к товарам</a></p>
+        </section>
+    {% else %}
+        <p><a href="{% url 'login' %}">Войдите</a>, чтобы оставить отзыв.</p>
+    {% endif %}
+
+    <section>
+        {% for r in reviews %}
+            <article>
+                <p><strong>{{ r.user.username }}</strong> (Оценка: {{ r.rating }}/5)</p>
+                <p>{{ r.text }}</p>
+                <small>{{ r.date_added|date:"d/m/Y" }}</small>
+            </article>
+            <hr>
+        {% endfor %}
+    </section>
+{% endblock %}

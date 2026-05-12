@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+]    <h1>{% if product.id %}Редактирование товара{% else %}Добавить новый товар{% endif %}</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        <p>
+            <label>Название товара:</label><br>
+            <input type="text" name="name" value="{{ product.name }}" required>
+        </p>
+
+        <p>
+            <label>Цена (руб):</label><br>
+            <input type="number" step="0.01" name="price" value="{{ product.price }}" required>
+        </p>
+
+        <p>
+            <label>Остаток на складе:</label><br>
+            <input type="number" name="stock" value="{{ product.stock|default:0 }}" required>
+        </p>
+
+        <p>
+            <label>Единица измерения:</label><br>
+            <select name="unit">
+                <option value="шт" {% if product.unit == 'шт' %}selected{% endif %}>Штуки</option>
+                <option value="кг" {% if product.unit == 'кг' %}selected{% endif %}>Килограммы</option>
+                <option value="л" {% if product.unit == 'л' %}selected{% endif %}>Литры</option>
+            </select>
+        </p>
+
+        {% if not product.id %}
+        <p>
+            <label>Категория:</label><br>
+            <select name="category" required>
+                {% for cat in categories %}
+                    <option value="{{ cat.id }}">{{ cat.name }}</option>
+                {% endfor %}
+            </select>
+        </p>
+
+        <p>
+            <label>Производитель:</label><br>
+            <select name="manufacturer" required>
+                {% for man in manufacturers %}
+                    <option value="{{ man.id }}">{{ man.name }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        {% endif %}
+
+        <button type="submit">Сохранить</button>
+    </form>
+
+    <p><a href="{% url 'product_list' %}">Отмена и возврат в каталог</a></p>
+{% endblock %}

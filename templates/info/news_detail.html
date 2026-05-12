@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p><a href="{% url 'news_list' %}">← Все новости</a></p>
+    
+    <article>
+        <h1>{{ news_item.title }}</h1>
+        <p><time>{{ news_item.date_published|date:"d F Y" }}</time></p>
+        
+        {% if news_item.image %}
+            <div>
+                <img src="{{ news_item.image.url }}" alt="{{ news_item.title }}">
+            </div>
+        {% endif %}
+        
+        <div>
+            {{ news_item.full_content|linebreaks }}
+        </div>
+    </article>
+{% endblock %}

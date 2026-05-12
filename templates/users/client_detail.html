@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Детали клиента: {{ client_user.username }}</h2>
+    <ul>
+        <li><strong>ФИО:</strong> {{ client_user.first_name }} {{ client_user.last_name }}</li>
+        <li><strong>Email:</strong> {{ client_user.email }}</li>
+        <li><strong>Телефон:</strong> {{ client_user.phone }}</li>
+        <li><strong>Город:</strong> {{ client_user.city }}</li>
+        <li><strong>Дата регистрации:</strong> {{ client_user.date_joined|date:"d.m.Y" }}</li>
+    </ul>
+    
+    <p><a href="{% url 'client_list' %}">← Вернуться к списку</a></p>
+{% endblock %}

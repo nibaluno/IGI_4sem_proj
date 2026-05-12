@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Наши контакты</h1>
+    <section>
+        {% for c in contacts %}
+            <article>
+                {% if c.photo %}
+                    <img src="{{ c.photo.url }}" alt="{{ c.employee.get_full_name }}">
+                {% endif %}
+                <h4>{{ c.employee.get_full_name }}</h4>
+                <p>Должность: {{ c.position }}</p>
+                <p>Тел: {{ c.phone }}</p>
+                <p>Email: {{ c.email }}</p>
+            </article>
+            <hr>
+        {% endfor %}
+    </section>
+{% endblock %}

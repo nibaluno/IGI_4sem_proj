@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% if promo %}Редактирование{% else %}Создание{% endif %} промокода</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        <p>
+            <label>Код промокода:</label><br>
+            <input type="text" name="code" value="{{ promo.code }}" placeholder="Например: СКИДКА2024" required>
+        </p>
+
+        <p>
+            <label>Размер скидки (%):</label><br>
+            <input type="number" name="discount" value="{{ promo.discount }}" min="1" max="100" required>
+        </p>
+
+        <p>
+            <label>Срок действия до:</label><br>
+            <input type="date" name="expiry_date" value="{{ promo.expiry_date|date:'Y-m-d' }}" required>
+        </p>
+
+        {% if promo %}
+        <p>
+            <label>
+                <input type="checkbox" name="is_active" {% if promo.is_active %}checked{% endif %}>
+                Активен
+            </label>
+        </p>
+        {% endif %}
+
+        <button type="submit">Сохранить промокод</button>
+    </form>
+
+    <p><a href="{% url 'promocodes' %}">Отмена и возврат к списку</a></p>
+{% endblock %}

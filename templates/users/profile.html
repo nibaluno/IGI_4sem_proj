@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Личный кабинет: {{ user.username }}</h2>
+    <ul>
+        <li><strong>ФИО:</strong> {{ user.first_name }} {{ user.last_name }}</li>
+        <li><strong>Роль:</strong> {{ user.get_role_display }}</li>
+        <li><strong>Телефон:</strong> {{ user.phone }}</li>
+        <li><strong>Город:</strong> {{ user.city }}</li>
+        <li><strong>Дата рождения:</strong> {{ user.birth_date|date:"d/m/Y" }}</li>
+    </ul>
+    
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Выйти из системы</button>
+    </form>
+
+    <hr>
+    
+    <h3>Развлекательный блок</h3>
+    <section>
+        <article>
+            <h4>Случайный факт о котах</h4>
+            <p><i>{{ cat_fact }}</i></p>
+        </article>
+
+        <article>
+            <h4>Шутка дня (Joke API)</h4>
+            <p><i>{{ random_joke }}</i></p>
+        </article>
+    </section>
+{% endblock %}

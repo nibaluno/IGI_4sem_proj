@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин бытовой химии</title>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Главная</a></li>
+                <li><a href="{% url 'about' %}">О компании</a></li>
+                <li><a href="{% url 'product_list' %}">Каталог</a></li>
+                <li><a href="{% url 'promocodes' %}">Промокоды</a></li>
+                <li><a href="{% url 'news_list' %}">Новости</a></li>
+                <li><a href="{% url 'glossary' %}">Словарь</a></li>
+                <li><a href="{% url 'contacts' %}">Контакты</a></li>
+                <li><a href="{% url 'vacancies' %}">Вакансии</a></li>
+                <li><a href="{% url 'reviews_info' %}">Отзывы</a></li>
+                <li><a href="{% url 'privacy' %}">Политика</a></li>
+
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'profile' %}">Профиль ({{ user.username }})</a></li>
+
+                    {% if user.role == 'employee' or user.is_superuser %}
+                        <li><a href="{% url 'client_list' %}">Клиенты (Сотрудник)</a></li>
+                    {% endif %}
+
+                    {% if user.is_superuser %}
+                        <li><a href="{% url 'admin_dashboard' %}">Аналитика (Админ)</a></li>
+                        <li><a href="{% url 'admin:index' %}">Вход в Админку</a></li>
+                    {% endif %}
+
+                    <li>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Выйти</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Войти</a></li>
+                    <li><a href="{% url 'register' %}">Регистрация</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <hr>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <hr>
+
+
+</body>
+</html>
+
+{% comment %} <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин бытовой химии</title>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul>
+                <!-- Доступно ВСЕМ (без регистрации) -->
+                <li><a href="{% url 'home' %}">Главная</a></li>
+                <li><a href="{% url 'about' %}">О компании</a></li>
+                <li><a href="{% url 'product_list' %}">Каталог</a></li>
+                <li><a href="{% url 'promocodes' %}">Промокоды</a></li>
+                <li><a href="{% url 'news_list' %}">Новости</a></li>
+                <li><a href="{% url 'glossary' %}">Словарь</a></li>
+                <li><a href="{% url 'contacts' %}">Контакты</a></li>
+                <li><a href="{% url 'vacancies' %}">Вакансии</a></li>
+                <li><a href="{% url 'reviews_info' %}">Отзывы</a></li>
+                <li><a href="{% url 'privacy' %}">Политика</a></li>
+
+                {% if user.is_authenticated %}
+                    <!-- Доступно ВСЕМ авторизованным -->
+                    <li><a href="{% url 'profile' %}">Профиль ({{ user.username }})</a></li>
+                    <li><a href="{% url 'cart' %}">Корзина</a></li>
+
+                    <!-- Только СОТРУДНИК и СУПЕРЮЗЕР -->
+                    {% if user.role == 'employee' or user.is_superuser %}
+                        <li><a href="{% url 'client_list' %}">Список клиентов</a></li>
+                        <li><a href="{% url 'product_create' %}">Добавить товар</a></li>
+                    {% endif %}
+
+                    <!-- Только СУПЕРЮЗЕР -->
+                    {% if user.is_superuser %}
+                        <li><a href="{% url 'admin_dashboard' %}">Аналитика</a></li>
+                        <li><a href="{% url 'admin:index' %}">Вход в Админку</a></li>
+                    {% endif %}
+
+                    <li>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Выйти</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <!-- Только для НЕавторизованных -->
+                    <li><a href="{% url 'login' %}">Войти</a></li>
+                    <li><a href="{% url 'register' %}">Регистрация</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <hr>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <hr>
+
+    <footer>
+        <p>&copy; 2024 Магазин бытовой химии</p>
+    </footer>
+
+</body>
+</html>{% endcomment %}

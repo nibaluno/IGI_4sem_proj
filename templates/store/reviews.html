@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Все отзывы магазина</h1>
+
+{% for review in reviews %}
+    <article>
+        <h4>Товар: <a href="{% url 'product_detail' pk=review.product.pk %}">{{ review.product.name }}</a></h4>
+        <p>"{{ review.text }}"</p>
+        <p>Автор: {{ review.user.username }} | Оценка: {{ review.rating }}</p>
+        <hr>
+    </article>
+{% empty %}
+    <p>Отзывов еще нет.</p>
+{% endfor %}
+{% endblock %}

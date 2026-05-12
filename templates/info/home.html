@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Главная страница</h1>
+    
+    {% if latest_news %}
+        <section>
+            <h2>Последняя новость: {{ latest_news.title }}</h2>
+            <p>{{ latest_news.short_content }}</p>
+            <a href="{% url 'news_detail' year=latest_news.date_published|date:'Y' slug=latest_news.slug %}">Читать далее...</a>
+        </section>
+    {% else %}
+        <p>Пока новостей нет. Добавьте их в админ-панели!</p>
+    {% endif %}
+
+    <section>
+        <h3>Информация о времени</h3>
+        <p>Текущая дата: <strong>{{ now_local|date:"d/m/Y" }}</strong></p>
+        <p>Время локальное: <strong>{{ now_local|time:"H:i" }}</strong></p>
+        <p>Время UTC: <strong>{{ now_utc|time:"H:i" }}</strong></p>
+
+        <h3>Календарь ({{ now_local|date:"F Y" }})</h3>
+        <pre>{{ month_cal }}</pre>
+    </section>
+{% endblock %}

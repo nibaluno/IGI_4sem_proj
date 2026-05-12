@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p><a href="{% url 'product_list' %}">← Назад в каталог</a></p>
+
+<h1>{{ product.name }}</h1>
+
+{% if product.photo %}
+    <img src="{{ product.photo.url }}" alt="{{ product.name }}" width="300">
+{% endif %}
+
+<ul>
+    <li>Категория: {{ product.category.name }}</li>
+    <li>Производитель: {{ product.manufacturer.name }} ({{ product.manufacturer.country }})</li>
+    <li>Остаток: {{ product.stock }} {{ product.get_unit_display }}</li>
+    <li>Цена: <strong>{{ product.price }} руб.</strong></li>
+</ul>
+
+<hr>
+
+<h3>Отзывы ({{ product.reviews.count }})</h3>
+
+{% if user.is_authenticated %}
+    <section>
+        <h4>Оставить отзыв</h4>
+        <form action="{% url 'add_review' product.id %}" method="post">
+            {% csrf_token %}
+            <p>Оценка: 
+                <select name="rating">
+                    <option value="5">5 звезд</option>
+                    <option value="4">4 звезды</option>
+                    <option value="3">3 звезды</option>
+                    <option value="2">2 звезды</option>
+                    <option value="1">1 звезда</option>
+                </select>
+            </p>
+            <p>Текст:<br>
+            <textarea name="text" rows="3" required></textarea></p>
+            <button type="submit">Отправить отзыв</button>
+        </form>
+    </section>
+{% else %}
+    <p><a href="{% url 'login' %}">Войдите</a>, чтобы оставить отзыв.</p>
+{% endif %}
+
+<hr>
+
+{% for review in product.reviews.all %}
+    <article>
+        <p><strong>{{ review.user.username }}</strong> — Оценка: {{ review.rating }}/5</p>
+        <p>{{ review.text }}</p>
+        <small>{{ review.date_added|date:"d.m.Y H:i" }}</small>
+    </article>
+    <hr>
+{% empty %}
+    <p>Отзывов пока нет.</p>
+{% endfor %}
+{% endblock %}
